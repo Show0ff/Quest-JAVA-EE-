@@ -2,6 +2,7 @@ package com.khlopin.socialwebsite.controllers.usersControllers;
 
 
 import com.khlopin.socialwebsite.entity.user.Role;
+import com.khlopin.socialwebsite.utills.Constants;
 import com.khlopin.socialwebsite.utills.DB;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -29,8 +30,8 @@ public class CreateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> parameterMap = request.getParameterMap();
-        DB.userDataBase.create(parameterMap.get("login")[0],
-                parameterMap.get("password")[0],
+        DB.userDataBase.create(parameterMap.get(Constants.LOGIN)[0],
+                parameterMap.get(Constants.PASSWORD)[0],
                 Role.valueOf(parameterMap.get("role")[0]));
 
         request.getRequestDispatcher("WEB-INF/complete.jsp").forward(request,response);

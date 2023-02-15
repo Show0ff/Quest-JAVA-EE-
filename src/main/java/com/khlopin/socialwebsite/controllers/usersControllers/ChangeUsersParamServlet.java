@@ -2,6 +2,7 @@ package com.khlopin.socialwebsite.controllers.usersControllers;
 
 
 import com.khlopin.socialwebsite.entity.user.User;
+import com.khlopin.socialwebsite.utills.Constants;
 import com.khlopin.socialwebsite.utills.DB;
 import com.khlopin.socialwebsite.utills.RedirectPaths;
 import jakarta.servlet.*;
@@ -30,7 +31,7 @@ public class ChangeUsersParamServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> parameterMap = request.getParameterMap();
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute(Constants.USER);
         String oldLogin = user.getUserName();
         Optional<User> optionalUser = DB.userDataBase.find(oldLogin);
         if (optionalUser.isPresent()) {
@@ -44,8 +45,8 @@ public class ChangeUsersParamServlet extends HttpServlet {
 
     //TODO перенести в UserRepository
     private static void changePassword(Map<String, String[]> parameterMap, User userFromDB) {
-        if (parameterMap.containsKey("password")) {
-            String newPassword = parameterMap.get("password")[0];
+        if (parameterMap.containsKey(Constants.PASSWORD)) {
+            String newPassword = parameterMap.get(Constants.PASSWORD)[0];
             if (!newPassword.isEmpty()) {
                 userFromDB.setPassword(newPassword);
                 log.info(userFromDB + " изменил свой пароль");
@@ -56,8 +57,8 @@ public class ChangeUsersParamServlet extends HttpServlet {
     //TODO перенести в UserRepository
     //TODO Не показывает, что не получилось сменить имя т.к оно уже занято. Сделать возвращение тру или фолс, если тру, то тредирект на одно, если фолс, то на другое
     private static void changeLogin(Map<String, String[]> parameterMap, String oldLogin, User userFromDB) {
-        if (parameterMap.containsKey("login")) {
-            String newLogin = parameterMap.get("login")[0];
+        if (parameterMap.containsKey(Constants.LOGIN)) {
+            String newLogin = parameterMap.get(Constants.LOGIN)[0];
             if (DB.userDataBase.find(newLogin).isEmpty()) {
                 if (!newLogin.isEmpty()) {
                     userFromDB.setUserName(newLogin);

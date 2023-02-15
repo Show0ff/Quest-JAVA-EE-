@@ -15,16 +15,16 @@ public class DB {
     public static AnswerRepository answerDataBase = new AnswerRepository();
     public static QuestionRepository questionDataBase = new QuestionRepository();
     public static UserRepository userDataBase = new UserRepository();
-    public static PostRepository postRepository = new PostRepository();
-    public static WallRepository wallRepository = new WallRepository();
+    public static PostRepository postDataBase = new PostRepository();
+    public static WallRepository wallDataBase = new WallRepository();
     public static QuestRepository questDataBase = new QuestRepository();
 
 
     public static void initWallsForMap() {
         for (User user : DB.userDataBase.getAll()) {
-            Long idListOfPostsForCurrentUser = DB.postRepository.createListOfPosts();
-            Long idOfWallForCurrentUser = DB.wallRepository.create(user, DB.postRepository.get(idListOfPostsForCurrentUser));
-            user.setWall(DB.wallRepository.get(idOfWallForCurrentUser));
+            Long idListOfPostsForCurrentUser = DB.postDataBase.createListOfPosts();
+            Long idOfWallForCurrentUser = DB.wallDataBase.create(user, DB.postDataBase.get(idListOfPostsForCurrentUser));
+            user.setWall(DB.wallDataBase.get(idOfWallForCurrentUser));
         }
     }
 

@@ -2,6 +2,7 @@ package com.khlopin.socialwebsite.controllers;
 
 
 import com.khlopin.socialwebsite.entity.user.Role;
+import com.khlopin.socialwebsite.utills.DB;
 import com.khlopin.socialwebsite.utills.RedirectPaths;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -16,10 +17,12 @@ import java.io.IOException;
 public class HomeServlet extends HttpServlet {
 
 
-
     @Override
     public void init(ServletConfig config) throws ServletException {
         config.getServletContext().setAttribute("roles", Role.values());
+
+        DB.initWallsForMap();
+
         super.init(config);
     }
 
@@ -28,7 +31,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.trace(request.getSession().getAttribute("user") + "посетил главную страницу");
-        request.getRequestDispatcher(RedirectPaths.TO_HOME).forward(request,response);
+        request.getRequestDispatcher(RedirectPaths.TO_HOME).forward(request, response);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.khlopin.socialwebsite.entity.user.Post;
 import com.khlopin.socialwebsite.entity.user.User;
 import com.khlopin.socialwebsite.entity.user.Wall;
 import com.khlopin.socialwebsite.services.questServices.Repository;
+import com.khlopin.socialwebsite.utills.DB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,8 +23,14 @@ public class WallRepository implements Repository<Wall> {
     //TODO доделать имплантированные методы
 
     public Long create(User ownerUser, List<Post> postList) {
-        wallMap.put(wallId.incrementAndGet(), new Wall(wallId.get(),ownerUser,postList));
+        wallMap.put(wallId.incrementAndGet(), new Wall(wallId.get(), ownerUser, postList));
         return wallId.get();
+    }
+
+    public void createWallWithPostListForUser(User user) {
+        Long idListOfPostsForCurrentUser = DB.postDataBase.createListOfPosts();
+        Long idOfWallForCurrentUser = DB.wallDataBase.create(user, DB.postDataBase.get(idListOfPostsForCurrentUser));
+        user.setWall(DB.wallDataBase.get(idOfWallForCurrentUser));
     }
 
     @Override

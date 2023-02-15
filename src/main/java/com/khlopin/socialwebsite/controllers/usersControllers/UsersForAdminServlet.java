@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 @WebServlet(name = "UsersServlet", value = "/users")
-public class UsersServlet extends HttpServlet {
+public class UsersForAdminServlet extends HttpServlet {
 
     //TODO исправить String на константы
 
@@ -22,8 +22,7 @@ public class UsersServlet extends HttpServlet {
         if (CheckAdminService.checkAdmin(request.getSession())) {
             Collection<User> allUsers = DB.userDataBase.getAll();
             request.setAttribute("users", allUsers);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/adminMenu/users.jsp");
-            requestDispatcher.forward(request, response);
+            request.getRequestDispatcher("WEB-INF/adminMenu/usersForAdmin.jsp").forward(request, response);
         }
     }
 }
